@@ -20,7 +20,7 @@ the four files are its split, unchanged.
 
 Implemented 2026-11-21: SUP-T-01, -03..-06; 2026-11-22: followed silverpoint 0.11 (`@silverpoint/embed`
 from npm, `vendor/` retired), SUP-T-07 and SUP-T-02's live half (Superset master in `docker/compose.yml`,
-`npm run e2e:superset`). Ledger in `specs/tasks.md`, findings in `specs/poc.md`. Open: `.supx`, the release.
+`npm run e2e:superset`). Ledger in `specs/tasks.md`, findings in `specs/poc.md`. **Released `0.1.0`** on npm (2026-11-22, CI with provenance). `.supx`: answered no (SUP-DD-03).
 
 Commands: `npm install --legacy-peer-deps`, `npm run check`, `npm run kit`, `npm run typecheck`,
 `npm test`, `npm run build`, `npm run conformance`, `npm run e2e`, `npm run e2e:superset` (needs

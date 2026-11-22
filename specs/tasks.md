@@ -11,7 +11,7 @@
 - [x] **SUP-T-05** Sizing, theme. *SUP-REQ-006, SUP-REQ-008*
 - [x] **SUP-T-06** The preset and subsets; thumbnails generated from demos. *SUP-REQ-001, SUP-REQ-002*
 - [x] **SUP-T-07** The integration job and the kit. *SUP-REQ-011, SUP-REQ-012, H-4, H-5*
-- [ ] **SUP-T-08** README: installing into a Superset image (a Dockerfile); release `0.1.0` with provenance.
+- [x] **SUP-T-08** README: installing into a Superset image (a Dockerfile); release `0.1.0` with provenance.
 
 Deferred to a later release, with no task yet: SUP-REQ-010 (cross-filters).
 
@@ -102,3 +102,8 @@ hosts kit matches the npm package), `npm run typecheck`, `npm test` (31 tests), 
     `@superset-ui/core`, `@superset-ui/chart-controls` and `@apache-superset/core` source (sparse clone,
     no `npm ci`). Shown on the defect that broke the build: the npm typecheck finds 0 errors, this one
     `TS2305: Module '"@superset-ui/core"' has no exported member 't'`.
+- **Released `0.1.0` (2026-11-22)** on npm from CI with provenance (SLSA v1; release run 45063436463,
+  tag `v0.1.0` on `e0ecc19`, PR #1 fast-forwarded into `main`; CI on the PR green, the live `superset`
+  job included). The name was reserved first by a hand-published placeholder `0.0.1` (npm also created
+  `0.0.0-stage`), then the trusted publisher was set (`npx -y npm@12.2.1 trust github …`); both
+  placeholders to be deprecated. Draws with silverpoint 0.11 (0.11.1).
