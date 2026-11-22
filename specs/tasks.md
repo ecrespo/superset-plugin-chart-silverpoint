@@ -106,4 +106,4 @@ hosts kit matches the npm package), `npm run typecheck`, `npm test` (31 tests), 
   tag `v0.1.0` on `e0ecc19`, PR #1 fast-forwarded into `main`; CI on the PR green, the live `superset`
   job included). The name was reserved first by a hand-published placeholder `0.0.1` (npm also created
   `0.0.0-stage`), then the trusted publisher was set (`npx -y npm@12.2.1 trust github …`); both
-  placeholders to be deprecated. Draws with silverpoint 0.11 (0.11.1).
+  placeholders deprecated the same day. Draws with silverpoint 0.11 (0.11.1).
