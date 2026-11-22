@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - run: npm run check
+      # H-2: the GitHub release's hosts kit is the npm package (integrity.json, catalog, cases).
+      - run: npm run kit
+      - run: npm run typecheck
+      # SUP-REQ-011: src/ against Superset master's own packages (the unit tests' npm 0.20 lag master).
+      - run: npm run typecheck:superset
+      - run: npm test
+      - run: npm run build
+      - run: npm run conformance
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+
+  # SUP-REQ-011: Superset master (the line with React 18; 6.0 and 6.1 ship React 17, which
+  # @silverpoint/react does not support) built with the preset registered, the examples loaded, and a
+  # browser test that creates a chart from birth_names and reads it by keyboard.
+  superset:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --legacy-peer-deps && npm run build && npm pack --pack-destination docker
+      - name: Superset with the preset
+        run: |
+          export PLUGIN=/ctx/$(cd docker && ls superset-plugin-chart-silverpoint-*.tgz)
+          docker compose -f docker/compose.yml up --build -d --wait --wait-timeout 1200
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e:superset
+      - if: failure()
+        run: docker compose -f docker/compose.yml logs --tail 300

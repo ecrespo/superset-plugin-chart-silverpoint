@@ -1,0 +1,32 @@
+# SUP-REQ-011: a Superset of the supported line with the preset registered, the examples loaded and an
+# admin, for test/superset/ (npm run e2e:superset). Throwaway: SQLite inside the container.
+#   npm run build && npm pack --pack-destination docker
+#   PLUGIN=/ctx/superset-plugin-chart-silverpoint-0.1.0.tgz docker compose -f docker/compose.yml up --build -d
+services:
+  superset:
+    image: superset-silverpoint:${SUPERSET_REF:-master}
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        SUPERSET_REF: ${SUPERSET_REF:-master}
+        PLUGIN: ${PLUGIN:-superset-plugin-chart-silverpoint@^0.1.0}
+        # A test image: a silverpoint release under Superset's 3-day min-release-age still installs.
+        NPM_MIN_RELEASE_AGE: ${NPM_MIN_RELEASE_AGE:-0}
+    ports: ['8088:8088']
+    environment:
+      SUPERSET_SECRET_KEY: silverpoint-e2e-not-a-secret-0123456789
+    command:
+      - sh
+      - -c
+      - >-
+        superset db upgrade &&
+        superset fab create-admin --username admin --password admin --firstname Ada --lastname Admin --email admin@example.invalid &&
+        superset init &&
+        superset load-examples &&
+        /usr/bin/run-server.sh
+    healthcheck:
+      test: ['CMD', 'curl', '-fsS', 'http://localhost:8088/health']
+      interval: 10s
+      timeout: 5s
+      retries: 90

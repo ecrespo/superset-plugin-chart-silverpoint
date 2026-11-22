@@ -1,0 +1,94 @@
+{
+  "name": "superset-plugin-chart-silverpoint",
+  "version": "0.1.0",
+  "description": "Apache Superset chart plugins that draw silverpoint charts: one viz type per chart, generated from silverpoint's host catalog.",
+  "license": "MIT",
+  "keywords": [
+    "superset",
+    "superset-plugin",
+    "silverpoint",
+    "chart"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ecrespo/superset-plugin-chart-silverpoint.git"
+  },
+  "author": {
+    "name": "Ernesto Crespo",
+    "email": "ecrespo@gmail.com"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": [
+    "./lib/styles.js",
+    "*.css"
+  ],
+  "files": [
+    "lib",
+    "README.md"
+  ],
+  "silverpoint": {
+    "line": "0.11",
+    "engine": "0.11.1"
+  },
+  "scripts": {
+    "generate": "node scripts/make-plugins.ts",
+    "check": "node scripts/make-plugins.ts --check && node scripts/engine.ts --check",
+    "build": "rm -rf lib && tsc -p tsconfig.build.json && node scripts/copy-assets.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "conformance": "node scripts/conformance.mjs",
+    "e2e": "playwright test",
+    "kit": "node scripts/engine.ts --kit",
+    "e2e:superset": "playwright test -c playwright.superset.config.ts",
+    "typecheck:superset": "node scripts/superset-api.ts"
+  },
+  "dependencies": {
+    "@silverpoint/core": "0.11.1",
+    "@silverpoint/embed": "0.11.1",
+    "@silverpoint/fonts": "0.11.1",
+    "@silverpoint/grounds": "0.11.1",
+    "@silverpoint/react": "0.11.1"
+  },
+  "peerDependencies": {
+    "@apache-superset/core": "*",
+    "@superset-ui/chart-controls": "*",
+    "@superset-ui/core": "*",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^5.6.1",
+    "@apache-superset/core": "0.1.0",
+    "@axe-core/playwright": "^4.14.0",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@playwright/test": "1.63.0",
+    "@superset-ui/chart-controls": "0.20.3",
+    "@superset-ui/core": "0.20.4",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "ace-builds": "^1.45.2",
+    "antd": "^4.10.3",
+    "antd-v5": "^5.14.1",
+    "brace": "^0.11.1",
+    "happy-dom": "^20.0.0",
+    "json-bigint": "^1.0.0",
+    "memoize-one": "^5.2.1",
+    "react": "^18.3.1",
+    "react-ace": "^10.1.0",
+    "react-dom": "^18.3.1",
+    "react-loadable": "^5.5.0",
+    "tinycolor2": "^1.6.0",
+    "typescript": "5.9.2",
+    "vite": "^8.3.0",
+    "vitest": "^3.2.0"
+  }
+}

@@ -1,0 +1,24 @@
+# A tag vX.Y.Z publishes to npm with provenance through npm Trusted Publishing (SUP-T-08).
+name: release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: The tag is the package version
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: npm ci --legacy-peer-deps
+      - run: npm run check && npm run kit && npm test && npm run build && npm run conformance
+      - run: npm publish --provenance --access public
